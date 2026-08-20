@@ -1,46 +1,46 @@
 # Personal AI Skills
 
-A small, platform-agnostic repository of reusable AI skills.
+一个小型、平台无关的可复用 AI Skill 仓库。
 
-The repository is designed around one simple idea: a skill's content should be independent from the agent that loads it.
+这个仓库的核心理念很简单：**Skill 的内容应该独立于加载它的 Agent。**
 
-## Current Status
+## 当前状态
 
-The repository currently contains one skill:
+目前仓库包含一个 Skill：
 
-- `shopping` — rational purchase decision-making
+- `shopping` — 理性购物决策
 
-Additional skills can be added later when they are actually needed.
+以后只有在真正需要时才增加新的 Skill。
 
-## Roles
+## 各部分的职责
 
-### Local repository
+### 本地仓库
 
-The local Git working copy is the development and runtime source for local agents.
+本地 Git 工作副本是本地 Agent 的开发源和运行源。
 
-Claude and Hermes should read skills directly from the local filesystem. Editing and saving a local `SKILL.md` should make the latest version available to the local agent without downloading the skill from GitHub.
+Claude 和 Hermes 应直接从本地文件系统读取 Skill。修改并保存本地 `SKILL.md` 后，本地 Agent 就可以使用最新版本，不需要在运行时从 GitHub 下载 Skill。
 
 ### GitHub
 
-GitHub stores the version-controlled, published copy of the skills.
+GitHub 保存经过版本控制、已经发布的 Skill。
 
-It is used for:
+它用于：
 
-- version history
-- publishing a version after local testing
-- remote access for web-based AI when available
+- 保存版本历史
+- 本地测试完成后发布版本
+- 在条件允许时，为网页 AI 提供远程访问
 
-GitHub is **not** a runtime dependency for local skill loading.
+GitHub **不是本地 Skill 加载的运行时依赖**。
 
-### Web AI
+### 网页 AI
 
-Web-based AI such as ChatGPT or Kimi may be asked to inspect this repository and use a named skill, for example:
+ChatGPT、Kimi 等网页 AI 可以被要求查看这个仓库并使用指定的 Skill，例如：
 
-> Go to `Frank-Y81/personal-ai-skills`, find the `shopping` skill, and follow it for this task.
+> 前往 `Frank-Y81/personal-ai-skills`，找到 `shopping` Skill，并按照它完成这个任务。
 
-Actual access depends on the capabilities of the specific AI service.
+实际能否访问仓库，取决于具体 AI 服务自身的能力。
 
-## Directory Structure
+## 目录结构
 
 ```text
 personal-ai-skills/
@@ -51,45 +51,46 @@ personal-ai-skills/
 └── README.md
 ```
 
-Each top-level skill directory contains its own `SKILL.md`:
+每个顶层 Skill 目录都包含自己的 `SKILL.md`：
 
 ```text
 <skill-name>/
 └── SKILL.md
 ```
 
-If a skill eventually needs substantial supporting material, it may later add directories such as `references/` or `scripts/`. They are intentionally not created until needed.
+如果某个 Skill 以后确实需要较多的辅助资料，可以再增加 `references/`、`scripts/` 等目录。没有实际需求时，不提前创建。
 
-## Adding a Skill
+## 添加 Skill
 
-1. Create `<skill-name>/SKILL.md`.
-2. Add its index entry to `registry/skills.json`.
-3. Test it locally with the agents that will use it.
-4. Commit and push after you are satisfied with the result.
+1. 创建 `<skill-name>/SKILL.md`。
+2. 在 `registry/skills.json` 中添加对应的索引项。
+3. 用将要使用它的 Agent 在本地测试。
+4. 确认满意后再提交并推送。
 
-## Modifying a Skill
+## 修改 Skill
 
-1. Edit the local `SKILL.md`.
-2. Test the change locally with Claude and/or Hermes.
-3. Update the skill version when appropriate.
-4. Commit and push when you decide to publish the change.
+1. 修改本地 `SKILL.md`。
+2. 使用 Claude 和/或 Hermes 在本地测试修改。
+3. 在需要时更新 Skill 版本号。
+4. 由你决定是否提交并推送到 GitHub。
 
-There is currently no separate development, staging, or runtime copy. For this single-user workflow, the local working copy is both the development and local runtime source; GitHub represents the published version.
+目前没有单独的开发版、预发布版或运行版。对于当前的单用户工作流，本地工作副本同时承担开发和本地运行；GitHub 代表已经发布的版本。
 
 ## Registry
 
-`registry/skills.json` is a lightweight discovery index for external AI or other readers. Its purpose is to answer:
+`registry/skills.json` 是一个面向外部 AI 或其他读取方的轻量级 Skill 发现索引。它主要回答三个问题：
 
-- Which skills are available?
-- What is each skill called?
-- Where is its `SKILL.md` file?
+- 当前有哪些 Skill？
+- 每个 Skill 叫什么？
+- 它的 `SKILL.md` 在哪里？
 
-The registry is not part of the local Claude or Hermes runtime path and does not perform automatic skill routing.
+Registry 不属于 Claude 或 Hermes 的本地运行链路，也不负责自动 Skill 路由。
 
-## Design Principles
+## 设计原则
 
-1. **One local source** — avoid maintaining duplicate copies of the same skill.
-2. **Platform-agnostic skill content** — keep agent-specific loading outside the skill itself where possible.
-3. **Explicit invocation** — skills are used when explicitly requested rather than through an automatic router.
-4. **Local-first** — local agents should not fetch skills from GitHub during normal runtime.
-5. **No unnecessary engineering** — do not add adapters, sync systems, multiple environments, CI, or APIs until a real need appears.
+1. **单一本地来源** — 避免维护同一个 Skill 的多份副本。
+2. **平台无关的 Skill 内容** — 尽量把 Agent 特有的加载逻辑放在 Skill 之外。
+3. **显式调用** — Skill 在用户明确指定后使用，不依赖复杂的自动路由。
+4. **本地优先** — 本地 Agent 正常运行时不应从 GitHub 获取 Skill。
+5. **不做不必要的工程化** — 在没有真实需求之前，不增加 Adapter、同步系统、多环境、CI 或 API。
+6. **按需扩展** — 只有在 Skill 确实需要大量额外内容时，才拆分到其他文件。
