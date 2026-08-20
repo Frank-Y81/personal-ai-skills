@@ -1,11 +1,22 @@
 {
-  "version": 1,
   "skills": [
     {
+      "id": "grill-me",
+      "name": "Grill Me",
+      "description": "对计划、决策和设计进行系统性压力测试，帮助发现盲点、风险和关键不确定性。",
+      "path": "grill-me/SKILL.md"
+    },
+    {
+      "id": "tech-encyclopedia",
+      "name": "Tech Encyclopedia",
+      "description": "帮助用户理解技术概念、原理、架构与实践。",
+      "path": "tech-encyclopedia/SKILL.md"
+    },
+    {
       "id": "shopping",
-      "version": "1.0.0",
-      "path": "shopping/SKILL.md",
-      "description": "Rational purchase decision-making: analyze needs, budget, value, and alternatives to determine whether to buy, wait, or not buy."
+      "name": "Shopping",
+      "description": "理性购物决策助手。",
+      "path": "shopping/SKILL.md"
     }
   ]
 }
