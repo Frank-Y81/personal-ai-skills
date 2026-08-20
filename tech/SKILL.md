@@ -1,5 +1,5 @@
 ---
-name: tech-encyclopedia
+name: tech
 description: 帮助用户理解技术概念、原理、架构与实践。
 version: 1.0.0
 ---
