@@ -14,35 +14,6 @@
         "is it worth buying",
         "do I need this"
       ]
-    },
-    {
-      "id": "research",
-      "version": "1.0.0",
-      "path": "skills/research/SKILL.md",
-      "description": "Structured research: decompose complex questions, evaluate evidence, distinguish facts from opinions, and produce conclusions with explicit confidence.",
-      "triggers": [
-        "research this",
-        "analyze this topic",
-        "what does the evidence say",
-        "compare information",
-        "fact check",
-        "summarize the research"
-      ]
-    },
-    {
-      "id": "writing",
-      "version": "1.0.0",
-      "path": "skills/writing/SKILL.md",
-      "description": "Writing and rewriting: analyze goal, audience, and structure before drafting or revising text across formats.",
-      "triggers": [
-        "write an email",
-        "write an article",
-        "write documentation",
-        "write a proposal",
-        "rewrite this",
-        "improve this text",
-        "help me write"
-      ]
     }
   ]
 }
