@@ -1,82 +1,88 @@
 # Personal AI Skills
 
-A platform-agnostic registry of AI skills, designed to be shared across multiple AI agents (Claude, Hermes, and future agents) without coupling skills to any specific platform.
+A small, platform-agnostic repository of reusable AI skills.
 
-## Why Skill-Agent Separation?
+The repository is designed around one simple idea: a skill's content should be independent from the agent that loads it.
 
-Different AI agents have different runtime environments, tool ecosystems, and capabilities. If a skill is written for a specific agent, it becomes locked to that agent and cannot be reused. By keeping skills platform-agnostic and separating them from agent-specific loading logic, we achieve:
+## Current Status
 
-- **Portability**: Any agent that can read Markdown can use these skills.
-- **Consistency**: All agents follow the same decision logic for the same task.
-- **Maintainability**: Skills are updated in one place, not duplicated across agent configurations.
-- **Testability**: The same test cases can validate behavior across agents.
+The repository currently contains one skill:
+
+- `shopping` — rational purchase decision-making
+
+Additional skills can be added later when they are actually needed.
 
 ## Roles
 
-### GitHub (Canonical Source)
+### Local repository
 
-- Stores the stable, versioned release of all skills.
-- Serves as the source of truth for skill content.
-- Provides remote access for web-based AI (GPT, Kimi, etc.) to read skills.
-- **Is not** a runtime dependency for local agents.
+The local Git working copy is the development and runtime source for local agents.
 
-### Local Agent (Claude, Hermes, etc.)
+Claude and Hermes should read skills directly from the local filesystem. Editing and saving a local `SKILL.md` should make the latest version available to the local agent without downloading the skill from GitHub.
 
-- Reads skill files directly from the local filesystem.
-- Does **not** access GitHub at runtime because of skills.
-- Syncs from GitHub manually or through a separate process (future), but once synced, operates fully offline.
-- Agent-specific loading logic (how to read, parse, and apply a skill) lives in the agent's own configuration, not in this repository.
+### GitHub
 
-### Web AI (GPT, Kimi, etc.)
+GitHub stores the version-controlled, published copy of the skills.
 
-- Can read skills from GitHub URLs.
-- Operates on the stable version published in the repository.
-- Cannot execute skills that require local tools or filesystem access.
-- Useful for consultation and analysis tasks.
+It is used for:
+
+- version history
+- publishing a version after local testing
+- remote access for web-based AI when available
+
+GitHub is **not** a runtime dependency for local skill loading.
+
+### Web AI
+
+Web-based AI such as ChatGPT or Kimi may be asked to inspect this repository and use a named skill, for example:
+
+> Go to `Frank-Y81/personal-ai-skills`, find the `shopping` skill, and follow it for this task.
+
+Actual access depends on the capabilities of the specific AI service.
 
 ## Directory Structure
 
-```
+```text
 personal-ai-skills/
-├── README.md              # This file
+├── README.md
 ├── registry/
-│   └── skills.json        # Skill index (metadata only, no full content)
+│   └── skills.json
 ├── skills/
-│   ├── shopping/
-│   │   └── SKILL.md       # Rational purchase decision-making
-│   ├── research/
-│   │   └── SKILL.md       # Structured research and evidence evaluation
-│   └── writing/
-│       └── SKILL.md       # Writing and rewriting
+│   └── shopping/
+│       └── SKILL.md
 └── tests/
-    └── README.md          # Testing guidelines
+    └── README.md
 ```
 
-### Planned (Not Yet Implemented)
+Future skills can follow the same structure:
 
-- `skills/<name>/references/` — Extended reference material for skills that need deeper context.
-- `adapters/` — Agent-specific adapters that define how each agent loads and applies skills.
-- `scripts/` — Sync and validation utilities.
+```text
+skills/
+└── <skill-name>/
+    └── SKILL.md
+```
 
-## How to Add a New Skill
+If a skill eventually needs substantial supporting material, it may later add directories such as `references/` or `scripts/`. They are intentionally not created until needed.
 
-1. Create `skills/<skill-name>/SKILL.md` using the [standard structure](#skillmd-standard-structure).
-2. Add an entry to `registry/skills.json` with the correct `id`, `version`, `path`, `description`, and `triggers`.
-3. Ensure the `path` in the registry exactly matches the file location.
-4. Test the skill locally with at least one agent.
-5. Commit and push.
+## Adding a Skill
 
-## How to Modify a Skill
+1. Create `skills/<skill-name>/SKILL.md`.
+2. Add its metadata to `registry/skills.json`.
+3. Test it locally with the agents that will use it.
+4. Commit and push after you are satisfied with the result.
 
-1. Edit the `SKILL.md` file.
-2. Update the version in the frontmatter **and** in `registry/skills.json` following [versioning rules](#versioning-rules).
-3. Test locally.
-4. Commit with a clear message describing what changed and why.
-5. Push to GitHub.
+## Modifying a Skill
 
-## SKILL.md Standard Structure
+1. Edit the local `SKILL.md`.
+2. Test the change locally with Claude and/or Hermes.
+3. Update the skill version when appropriate.
+4. Commit and push when you decide to publish the change.
 
-Every skill follows this structure:
+There is currently no separate development, staging, or runtime copy. For this single-user workflow, the local working copy is both the development and local runtime source; GitHub represents the published version.
+
+## Skill Format
+
+Each skill uses a `SKILL.md` with lightweight metadata:
 
 ```markdown
 ---
@@ -84,51 +90,23 @@ name: <skill-name>
 description: <short description>
 version: <MAJOR.MINOR.PATCH>
 ---
-# Purpose
-# When To Use
-# Workflow
-# Decision Rules
-# Output Format
-# Constraints
 ```
 
-- **description**: One sentence, concise.
-- **Workflow**: Must be genuinely executable steps.
-- **Decision Rules**: Only skill-specific logic — no generic AI behavior rules.
-- **Output Format**: Suggested structure, not a rigid template.
-- **Constraints**: Only skill-specific limitations.
+The body should contain only the instructions and decision logic that are specific to that skill. It should not depend on Claude, Hermes, or another specific agent unless the skill itself is intentionally agent-specific.
 
-## Versioning Rules
+## Versioning
 
-Follows [Semantic Versioning](https://semver.org/):
+Versions use `MAJOR.MINOR.PATCH`:
 
-| Change Type | Version Bump | Example |
-|---|---|---|
-| Core behavior fundamentally changes | MAJOR | 1.0.0 → 2.0.0 |
-| New capability added, backward-compatible | MINOR | 1.0.0 → 1.1.0 |
-| Small fix or clarification | PATCH | 1.0.0 → 1.0.1 |
-
-## Why GitHub Is Not a Local Runtime Dependency
-
-Local agents read skill files from the local filesystem. The skills in this repository are plain Markdown — they contain no executable code, no API calls, and no external dependencies. An agent that has synced this repository can operate fully offline.
-
-GitHub's role is limited to:
-
-- Version control and history
-- Stable release distribution
-- Remote access for web-based AI
-
-Treating GitHub as a runtime dependency would:
-
-- Break offline usage
-- Introduce latency and availability risks
-- Couple skills to a specific hosting platform
-- Violate the platform-agnostic principle
+- **MAJOR** — core behavior changes significantly
+- **MINOR** — meaningful capability is added
+- **PATCH** — small fixes or clarifications
 
 ## Design Principles
 
-1. **Platform-agnostic**: Skills contain no agent-specific logic, no references to specific tools, APIs, or model capabilities.
-2. **Progressive disclosure**: Skills are concise by default. Deeper context is deferred to optional `references/` (future).
-3. **Behavior-focused**: Skills define decision rules and workflows, not generic AI behavior guidelines.
-4. **No filler**: No "you are a professional assistant" or "be polite" — these are universal and don't belong in individual skills.
-5. **Negative outcomes allowed**: Skills must allow for conclusions like "don't buy", "insufficient evidence", etc.
+1. **One local source** — avoid maintaining duplicate copies of the same skill.
+2. **Platform-agnostic skill content** — keep agent-specific loading outside the skill itself.
+3. **Explicit invocation** — skills are used when explicitly requested rather than through a complex automatic router.
+4. **Local-first** — local agents should not fetch skills from GitHub during normal runtime.
+5. **No unnecessary engineering** — do not add adapters, sync systems, multiple environments, or APIs until a real need appears.
+6. **Progressive disclosure when needed** — keep the main skill concise and move substantial optional material out only when the skill genuinely requires it.
