@@ -44,30 +44,26 @@ Actual access depends on the capabilities of the specific AI service.
 
 ```text
 personal-ai-skills/
-├── README.md
+├── shopping/
+│   └── SKILL.md
 ├── registry/
 │   └── skills.json
-├── skills/
-│   └── shopping/
-│       └── SKILL.md
-└── tests/
-    └── README.md
+└── README.md
 ```
 
-Future skills can follow the same structure:
+Each top-level skill directory contains its own `SKILL.md`:
 
 ```text
-skills/
-└── <skill-name>/
-    └── SKILL.md
+<skill-name>/
+└── SKILL.md
 ```
 
 If a skill eventually needs substantial supporting material, it may later add directories such as `references/` or `scripts/`. They are intentionally not created until needed.
 
 ## Adding a Skill
 
-1. Create `skills/<skill-name>/SKILL.md`.
-2. Add its metadata to `registry/skills.json`.
+1. Create `<skill-name>/SKILL.md`.
+2. Add its index entry to `registry/skills.json`.
 3. Test it locally with the agents that will use it.
 4. Commit and push after you are satisfied with the result.
 
@@ -80,33 +76,20 @@ If a skill eventually needs substantial supporting material, it may later add di
 
 There is currently no separate development, staging, or runtime copy. For this single-user workflow, the local working copy is both the development and local runtime source; GitHub represents the published version.
 
-## Skill Format
+## Registry
 
-Each skill uses a `SKILL.md` with lightweight metadata:
+`registry/skills.json` is a lightweight discovery index for external AI or other readers. Its purpose is to answer:
 
-```markdown
----
-name: <skill-name>
-description: <short description>
-version: <MAJOR.MINOR.PATCH>
----
-```
+- Which skills are available?
+- What is each skill called?
+- Where is its `SKILL.md` file?
 
-The body should contain only the instructions and decision logic that are specific to that skill. It should not depend on Claude, Hermes, or another specific agent unless the skill itself is intentionally agent-specific.
-
-## Versioning
-
-Versions use `MAJOR.MINOR.PATCH`:
-
-- **MAJOR** — core behavior changes significantly
-- **MINOR** — meaningful capability is added
-- **PATCH** — small fixes or clarifications
+The registry is not part of the local Claude or Hermes runtime path and does not perform automatic skill routing.
 
 ## Design Principles
 
 1. **One local source** — avoid maintaining duplicate copies of the same skill.
-2. **Platform-agnostic skill content** — keep agent-specific loading outside the skill itself.
-3. **Explicit invocation** — skills are used when explicitly requested rather than through a complex automatic router.
+2. **Platform-agnostic skill content** — keep agent-specific loading outside the skill itself where possible.
+3. **Explicit invocation** — skills are used when explicitly requested rather than through an automatic router.
 4. **Local-first** — local agents should not fetch skills from GitHub during normal runtime.
-5. **No unnecessary engineering** — do not add adapters, sync systems, multiple environments, or APIs until a real need appears.
-6. **Progressive disclosure when needed** — keep the main skill concise and move substantial optional material out only when the skill genuinely requires it.
+5. **No unnecessary engineering** — do not add adapters, sync systems, multiple environments, CI, or APIs until a real need appears.
