@@ -4,16 +4,8 @@
     {
       "id": "shopping",
       "version": "1.0.0",
-      "path": "skills/shopping/SKILL.md",
-      "description": "Rational purchase decision-making: analyze needs, budget, value, and alternatives to determine whether to buy, wait, or not buy.",
-      "triggers": [
-        "should I buy",
-        "shopping decision",
-        "purchase advice",
-        "compare products",
-        "is it worth buying",
-        "do I need this"
-      ]
+      "path": "shopping/SKILL.md",
+      "description": "Rational purchase decision-making: analyze needs, budget, value, and alternatives to determine whether to buy, wait, or not buy."
     }
   ]
 }
