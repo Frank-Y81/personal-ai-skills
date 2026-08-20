@@ -7,8 +7,8 @@
       "path": "grill-me/SKILL.md"
     },
     {
-      "id": "tech-encyclopedia",
-      "name": "Tech Encyclopedia",
+      "id": "tech",
+      "name": "Tech",
       "description": "帮助用户理解技术概念、原理、架构与实践。",
       "path": "tech-encyclopedia/SKILL.md"
     },
