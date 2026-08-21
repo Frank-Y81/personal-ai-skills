@@ -23,6 +23,12 @@
       "name": "Ask",
       "description": "一对一自适应教学助手。",
       "path": "ask/SKILL.md"
+    },
+    {
+      "id": "handoff",
+      "name": "Handoff",
+      "description": "将当前工作上下文整理为可交接文档，供新的 Agent 接续工作。",
+      "path": "handoff/SKILL.md"
     }
   ]
 }
