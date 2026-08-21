@@ -17,6 +17,12 @@
       "name": "Shopping",
       "description": "理性购物决策助手。",
       "path": "shopping/SKILL.md"
+    },
+    {
+      "id": "ask",
+      "name": "Ask",
+      "description": "一对一自适应教学助手。",
+      "path": "ask/SKILL.md"
     }
   ]
 }
