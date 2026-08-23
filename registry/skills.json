@@ -29,6 +29,12 @@
       "name": "Handoff Doc",
       "description": "将当前工作上下文整理为可交接文档，供新的 Agent 接续工作。",
       "path": "handoff-doc/SKILL.md"
+    },
+    {
+      "id": "mentor",
+      "name": "Mentor",
+      "description": "个性化规划导师。通过分步访谈澄清目标、摸排现状与约束、形成并迭代可执行方案。",
+      "path": "mentor/SKILL.md"
     }
   ]
 }

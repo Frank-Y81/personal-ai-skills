@@ -6,11 +6,14 @@
 
 ## 当前状态
 
-目前仓库包含一个 Skill：
+目前仓库包含以下 Skill：
 
 - `shopping` — 理性购物决策
-
-以后只有在真正需要时才增加新的 Skill。
+- `grill-me` — 对计划、决策和设计进行系统性压力测试
+- `tech` — 技术概念、原理、架构与实践的解释
+- `ask` — 一对一自适应教学助手
+- `handoff-doc` — 工作上下文交接文档
+- `mentor` — 个性化规划导师，通过分步访谈形成可执行方案
 
 ## 各部分的职责
 
@@ -40,11 +43,21 @@ ChatGPT、Kimi 等网页 AI 可以被要求查看这个仓库并使用指定的 
 
 实际能否访问仓库，取决于具体 AI 服务自身的能力。
 
-## 目录结构（例子）
+## 目录结构
 
 ```text
 personal-ai-skills/
 ├── shopping/
+│   └── SKILL.md
+├── grill-me/
+│   └── SKILL.md
+├── tech/
+│   └── SKILL.md
+├── ask/
+│   └── SKILL.md
+├── handoff-doc/
+│   └── SKILL.md
+├── mentor/
 │   └── SKILL.md
 ├── registry/
 │   └── skills.json
